@@ -55,3 +55,27 @@ ylabel('Pressure Drop (Pa)')
 legend('dp = 3 mm', 'dp = 5 mm', 'dp = 8 mm')
 title('Effect of Particle Diameter on Pressure Drop')
 grid on
+
+epsilon_values = [0.35, 0.4, 0.45]; % different porosities
+dp = 0.005; % fix particle diameter
+
+figure
+hold on
+for eps = epsilon_values
+    deltaP = ((150*(1-eps)^2*mu.*v)./(eps^3*dp^2) + ...
+              (1.75*(1-eps)*rho.*v.^2)./(eps^3*dp)) * L;
+    plot(v, deltaP, 'LineWidth', 2)
+end
+hold off
+xlabel('Velocity (m/s)')
+ylabel('Pressure Drop (Pa)')
+legend('epsilon = 0.35', 'epsilon = 0.4', 'epsilon = 0.45')
+title('Effect of Porosity on Pressure Drop')
+grid on
+
+epsilon = 0.4;
+dp = 0.005;
+
+term1 = (150*(1 - epsilon)^2 * mu .* v) / (epsilon^3 * dp^2);
+term2 = (1.75*(1 - epsilon) * rho .* v.^2) / (epsilon^3 * dp);
+deltaP_per_L = term1 + term2;
